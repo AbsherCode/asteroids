@@ -6,8 +6,11 @@ def main():
     pygame.init()
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
     pygame.display.set_caption("Age of Dragons: Asteroids")
+
+    clock = pygame.time.Clock()
+    # Initialize the delta time (dt) variable
+    dt = 0
 
     # Game Loop (Infinite while loop)
     while True:
@@ -17,24 +20,24 @@ def main():
                 # Exit the function (and thus the game loop) if the user closes the window
                 return
 
-        # Step 2: Update the game world (Placeholder for now)
+        # Step 2: Update the game world (dt will be used here later)
         # ... your game logic updates will go here ...
+        # print(f"Delta Time: {dt:.4f} seconds") # Uncomment to see dt value
 
         # Step 3: Draw the game to the screen
         
         # Fill the screen with a solid "black" color (RGB: 0, 0, 0)
         screen.fill((0, 0, 0)) 
         
-        # Use pygame's display.flip() method to refresh the screen (must be called last)
+        # Refresh the screen
         pygame.display.flip()
-    # print("Starting Asteroids!")
-    # print(f"Screen width: {SCREEN_WIDTH}")
-    # print(f"Screen height: {SCREEN_HEIGHT}")
 
-    # Expected output when running main.py:
-    # Starting Asteroids!
-    # Screen width: 1280
-    # Screen height: 720
+        # --- FPS Control Implementation ---
+        # .tick(60) pauses the loop to restrict the FPS to a max of 60.
+        # It returns the time passed since the last call (in milliseconds).
+        # We divide by 1000 to convert milliseconds to seconds and save it to dt.
+        dt = clock.tick(60) / 1000
+        # ----------------------------------
 
 if __name__ == "__main__":
     main()
