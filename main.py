@@ -9,7 +9,16 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Age of Dragons: Asteroids")
 
-    # --- Instantiate Player ---
+    # --- Group Setup (Before Game Loop) ---
+    # 1. Create the two required groups
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    # 2. Set both groups as containers for the Player class
+    # All Player objects created AFTER this line will be automatically added to both groups.
+    Player.containers = (updatable, drawable)
+
+    # 3. Instantiate Player
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
@@ -29,18 +38,19 @@ def main():
 
         # Step 2: Update the game world (dt will be used here later)
         # ... your game logic updates will go here ...
-        # --- Update the player's rotation and position ---
-        player.update(dt) 
-        # -------------------------------------------------
+        # --- Use the 'updatable' group instead of player.update(dt) ---
+        updatable.update(dt)
+        # -----------------------------------------------------------------
 
         # Step 3: Draw the game to the screen
         
         # Fill the screen with a solid "black" color (RGB: 0, 0, 0)
         screen.fill((0, 0, 0)) 
 
-        # --- Draw the Player ---
-        player.draw(screen)
-        # -----------------------
+        # --- Loop over all 'drawable' objects and draw them ---
+        for entity in drawable:
+            entity.draw(screen)
+        # ------------------------------------------------------
         
         # Refresh the screen
         pygame.display.flip()
