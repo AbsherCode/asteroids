@@ -1,4 +1,5 @@
 import pygame
+from player import Player
 from constants import *
 
 def main():
@@ -7,6 +8,12 @@ def main():
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Age of Dragons: Asteroids")
+
+    # --- Instantiate Player ---
+    x = SCREEN_WIDTH / 2
+    y = SCREEN_HEIGHT / 2
+    player = Player(x, y)
+    # --------------------------
 
     clock = pygame.time.Clock()
     # Initialize the delta time (dt) variable
