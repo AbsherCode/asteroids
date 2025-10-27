@@ -1,5 +1,7 @@
 import pygame
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 from constants import *
 
 def main():
@@ -10,15 +12,24 @@ def main():
     pygame.display.set_caption("Age of Dragons: Asteroids")
 
     # --- Group Setup (Before Game Loop) ---
-    # 1. Create the two required groups
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
 
-    # 2. Set both groups as containers for the Player class
-    # All Player objects created AFTER this line will be automatically added to both groups.
+    # 1. Create the new group for asteroids
+    asteroids = pygame.sprite.Group()
+
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = updatable
+    asteroid_field = AsteroidField()
+
+    # 2. Set containers for Player
     Player.containers = (updatable, drawable)
 
-    # 3. Instantiate Player
+    # 3. Set containers for Asteroid
+    Asteroid.containers = (asteroids, updatable, drawable)
+    # -------------------
+
+    # Instantiate Player
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
