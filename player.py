@@ -1,5 +1,5 @@
 import pygame
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED # Assuming you will import constants here
+from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED # Assuming you will import constants here
 from circleshape import CircleShape
 
 class Player(CircleShape):
@@ -54,18 +54,39 @@ class Player(CircleShape):
         # Add the rotational change: speed * delta time
         self.rotation += PLAYER_TURN_SPEED * dt
 
+    def move(self, dt):
+        """
+        Moves the ship forward or backward based on the player's rotation.
+        dt controls the direction and speed (via PLAYER_SPEED).
+        """
+        # 1. Start with a unit vector pointing up (0, 1)
+        # 2. Rotate it by the player's current rotation
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        
+        # 3. Apply motion: position += direction * speed * delta_time
+        # Note: self.position is a pygame.Vector2 object
+        self.position += forward * PLAYER_SPEED * dt
+
     def update(self, dt):
         """
-        Handles player input for rotation.
+        Handles player input for rotation and movement.
         """
         keys = pygame.key.get_pressed()
 
-        # Rotate Left (A key)
+        # Rotation (A and D keys)
         if keys[pygame.K_a]:
-            # To reverse the rotation, we pass a negative delta time (or negative speed)
             self.rotate(-dt)
-            
-        # Rotate Right (D key)
         if keys[pygame.K_d]:
-            # Rotate normally to the right
             self.rotate(dt)
+            
+        # Movement (W and S keys)
+        
+        # Move Forward (W key)
+        if keys[pygame.K_w]:
+            self.move(dt)
+            
+        # Move Backward (S key)
+        if keys[pygame.K_s]:
+            # To move backward, we pass a negative delta time, effectively
+            # reversing the movement vector.
+            self.move(-dt)
