@@ -35,6 +35,10 @@ def main():
         
         # Fill the screen with a solid "black" color (RGB: 0, 0, 0)
         screen.fill((0, 0, 0)) 
+
+        # --- Draw the Player ---
+        player.draw(screen)
+        # -----------------------
         
         # Refresh the screen
         pygame.display.flip()
