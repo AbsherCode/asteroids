@@ -1,5 +1,5 @@
 import pygame
-from constants import PLAYER_RADIUS # Assuming you will import constants here
+from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED # Assuming you will import constants here
 from circleshape import CircleShape
 
 class Player(CircleShape):
@@ -46,3 +46,26 @@ class Player(CircleShape):
         
         # Draw the triangle polygon
         pygame.draw.polygon(screen, color, self.triangle(), line_width)
+    
+    def rotate(self, dt):
+        """
+        Rotates the ship by adding a time-normalized value to the current rotation.
+        """
+        # Add the rotational change: speed * delta time
+        self.rotation += PLAYER_TURN_SPEED * dt
+
+    def update(self, dt):
+        """
+        Handles player input for rotation.
+        """
+        keys = pygame.key.get_pressed()
+
+        # Rotate Left (A key)
+        if keys[pygame.K_a]:
+            # To reverse the rotation, we pass a negative delta time (or negative speed)
+            self.rotate(-dt)
+            
+        # Rotate Right (D key)
+        if keys[pygame.K_d]:
+            # Rotate normally to the right
+            self.rotate(dt)

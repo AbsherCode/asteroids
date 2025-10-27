@@ -29,7 +29,9 @@ def main():
 
         # Step 2: Update the game world (dt will be used here later)
         # ... your game logic updates will go here ...
-        # print(f"Delta Time: {dt:.4f} seconds") # Uncomment to see dt value
+        # --- Update the player's rotation and position ---
+        player.update(dt) 
+        # -------------------------------------------------
 
         # Step 3: Draw the game to the screen
         
