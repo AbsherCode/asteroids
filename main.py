@@ -35,6 +35,13 @@ def main():
     player = Player(x, y)
     # --------------------------
 
+    # --- Test Asteroid Creation ---
+    # Create one asteroid near the player to easily test collision
+    test_asteroid = Asteroid(x + 100, y + 100, ASTEROID_MIN_RADIUS)
+    # Give it a velocity pointing towards the center (e.g., -50, -50)
+    test_asteroid.velocity = pygame.Vector2(-50, -50)
+    # ------------------------------
+
     clock = pygame.time.Clock()
     # Initialize the delta time (dt) variable
     dt = 0
@@ -51,7 +58,14 @@ def main():
         # ... your game logic updates will go here ...
         # --- Use the 'updatable' group instead of player.update(dt) ---
         updatable.update(dt)
-        # -----------------------------------------------------------------
+        # --- Collision Detection ---
+        # Iterate over all asteroids and check against the player
+        for asteroid in asteroids:
+            if player.collides_with(asteroid):
+                print("Game over!")
+                # Immediately exit the program upon collision
+                return 
+        # ---------------------------
 
         # Step 3: Draw the game to the screen
         
